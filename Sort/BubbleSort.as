@@ -14,7 +14,7 @@ BubbleSort:
 
     addi	$t0, $zero, 0			# $t0 = 0
 
-    addi	$t2, $a1, -1             # $t2 = ArrayLength - 1
+    addi	$t2, $a1, -1            # $t2 = ArrayLength - 1
 
     sll 	$t3, $a1, 2	            # $t3 = 4 * ArrayLength
     add    $t3, $t3, $a0            # $t3 = 4 * ArrayLength + ArrayStartAddress
@@ -48,4 +48,4 @@ BubbleSort:
         j loop_1 # goto loop_1
 
     done:
-        jr $ra
+        jr $ra # goto reverse address
