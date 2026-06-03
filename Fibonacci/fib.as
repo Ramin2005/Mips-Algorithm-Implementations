@@ -3,9 +3,8 @@ fibonacci:
     addi $t2, $zero, 0
 
     slt $t2, $t2, $a0
-    beq	$t2, $zero, end
+    beq	$t2, $zero, done
     
-    addi $t2, $zero, 1
     addi $t1, $zero, 0
     addi $t0, $zero, 0
 
@@ -16,6 +15,6 @@ loop:
     addi $t0, $t0, 1
     bne $t0, $a0, loop
 
-end:
+done:
     add $v0, $t2, $zero
     jr $ra
