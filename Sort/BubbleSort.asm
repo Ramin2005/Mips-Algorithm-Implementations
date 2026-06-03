@@ -48,4 +48,4 @@ BubbleSort:
         j loop_1 # goto loop_1
 
     done:
-        jr $ra # goto reverse address
+        jr $ra   # goto reverse address
