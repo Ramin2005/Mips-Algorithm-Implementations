@@ -10,7 +10,7 @@
 BubbleSort:
 
     slti    $t6, $a1, 2
-    bne     $t6, $zero, end         # if array has one element goto end
+    bne     $t6, $zero, end         # if array has one element jump to end
 
     addi	$t0, $zero, 0			# $t0 = 0
 
@@ -22,7 +22,8 @@ BubbleSort:
 
 
     loop_1:
-        beq		$t0, $t2, end	        # if $t0 == $t2 then goto end
+        beq		$t0, $t2, end	        # if $t0 == $t2 then jump to end
+
         addi	$t0, $t0, 1			    # $t0 = $t0 + 1
         addi	$t1, $a0, 0			    # ArrayStartAddress
         addi	$t7, $zero, 0		    # $t7 = 0
@@ -33,7 +34,7 @@ BubbleSort:
             lw		$t5, 4($t1)		        # load element i + 1
 
             slt		$t6, $t5, $t4	        # $t6 = ($t5 < $t4) ? 1 : 0
-            beq		$t6, $zero, loop_2_end	# if $t6 == 0 then goto loop_2_end
+            beq		$t6, $zero, loop_2_end	# if $t6 == 0 then jump to loop_2_end
         
             sw		$t5, 0($t1)		        # store $5 into memory with address $t1
             sw		$t4, 4($t1)		        # store $4 into memory with address $t1 + 4
@@ -42,13 +43,15 @@ BubbleSort:
 
             loop_2_end:
                 addi	$t1, $t1, 4		        # $t1 = $t1 + 4
-                bne		$t1, $t3, loop_2	    # if $t1 != $t3 then goto loop_2
+
+                bne		$t1, $t3, loop_2	    # if $t1 != $t3 then jump to loop_2
 
 
         addi     $t3, $t3, -4           # $t3 = $t3 - 4
-        beq		 $t7, $zero, end	    # if array sorted then goto end
-        j loop_1                        # goto loop_1
+        
+        beq		 $t7, $zero, end	    # if array sorted then jump to end
+        j loop_1                        # jump to loop_1
 
 
     end:
-        jr $ra                          # goto reverse address
+        jr $ra                          # jump to reverse address
