@@ -31,13 +31,13 @@ InsertionSort:
             slt		$t5, $t3, $t4		        # $t5 = ($t3 < $t4) ? 1 : 0
             beq		$t5, $zero, loop_end	    # if $t5 == 0 then jump to loop_end
             
-            sw		$t1, 0($t4)		            # store $t4 in memory at $t1
+            sw		$t4, 0($t1)		            # store $t4 in memory at $t1
             addi	$t1, $t1, -4			    # $t1= $t1 - 4
 
             j		loop_2				        # jump to loop_2
 
         loop_end:
-            sw		$t3, 4($t1)		            # store $t4 in memory at $t1 + 4
+            sw		$t3, 0($t1)		            # store $t3 in memory at $t1
             addi	$t0, $t0, 4			        # $t0 = $t0 + 4
 
             j       loop_1                      # jump to loop_1
