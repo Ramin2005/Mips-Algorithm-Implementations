@@ -10,7 +10,7 @@
 BubbleSort:
 
     slti    $t6, $a1, 2
-    bne     $t6, $zero, end        # if array has one element goto end
+    bne     $t6, $zero, end         # if array has one element goto end
 
     addi	$t0, $zero, 0			# $t0 = 0
 
