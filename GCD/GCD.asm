@@ -14,7 +14,7 @@ GCD:
     move 	$t1, $t2		    # $t1 = $t2
 
     check:
-        beq		$t1, $zero, end 	# if $t1 != 0 jump to end
+        beq		$t1, $zero, end 	# if $t1 == 0 jump to end
 
     loop:
         div		$t0, $t1			# $t0 / $t1
