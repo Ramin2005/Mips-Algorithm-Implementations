@@ -44,4 +44,4 @@ InsertionSort:
             
 
     end:
-        jr $ra                          # jump to reverse address
+        jr $ra                          # jump to return address

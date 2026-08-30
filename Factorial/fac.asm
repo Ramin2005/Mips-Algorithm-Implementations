@@ -13,4 +13,4 @@ factorial:
         j    loop               # repeat loop
 
     done:
-        jr   $ra                # return to caller
+        jr   $ra                # jump to return address

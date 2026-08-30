@@ -102,4 +102,4 @@ Multiply:
         lw   $s5, 20($sp)
         addi $sp, $sp, 24
 
-        jr $ra                          # jump to reverse address
+        jr $ra                          # jump to return address

@@ -49,4 +49,4 @@ SelectionSort:
                 j		loop_1				    # jump to loop_1
 
     end:
-        jr $ra                          # jump to reverse address
+        jr $ra                          # jump to return address
