@@ -38,6 +38,7 @@ MergeSort:
     add     $a1, $a0, $a2       # $a1 = Temp array last element address + Temp array start address
     srl		$a1, $a1, 1			# $a1 = $a1/2 (midpoint of the array)
     andi	$a1, $a1, 0xFFFFFFFC# $a1 = $a1 & 0xFFFFFFFC (align to word boundary)
+    addi    $a1, $a1, +4        # $a1 = $a1 + 4 (midpoint of the array)
 
     # store start, mid, end on stack for recursive calls
     addi    $sp, $sp, -12       # Allocate space on stack for 2 words (start, mid, end)
@@ -46,11 +47,11 @@ MergeSort:
     sw      $a2, 8($sp)         # Store last element address
     
     # Recursively sort left half
+    addi    $a1, $a1, -4        # Load start address of right half
     jal     MergeSort           # Recursively sort left half
 
     # Recursively sort right half
     lw      $a0, 4($sp)         # Load midpoint
-    addi    $a0, $a0, 4         # Load start address of right half
     lw      $a1, 8($sp)         # Load last element address
     jal     MergeSort           # Recursively sort right half
 
