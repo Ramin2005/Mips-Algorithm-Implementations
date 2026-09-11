@@ -12,16 +12,18 @@ MergeSort:
     sw		$a1, 4($sp)		    # Store last element address
     sw		$ra, 8($sp)		    # Store return address
 
+    sub     $t7, $a1, $a0        # $t7 = $a1 - $a0 (size of the array)
+    addi    $t7, $t7, 4          # $t7 = $t7 + 4 (to include the last element)
+
     # Declare temp array to hold merged results
-    sub		$t0, $a1, $a0		# $t0 = $a1 - $a0
-    addi	$t0, $t0, 4		    # $t0 = $t0 + 4 (to include the last element)
-    move 	$a0, $t0		    # $a0 = $t0
+    move 	$a0, $t7		    # $a0 = $t7
     li      $v0, 9
     syscall
     move    $a0, $v0            # $s0 = Temp array address
 
     move    $t2, $a0            # $t2 = Temp array start address
-    add     $a2, $a0, $t0       # $a2 = Temp array last element address
+    add     $a2, $a0, $t7       # $a2 = Temp array last element address
+    addi	$a2, $a2, -4	    # $a2 = Temp array last element address (subtract 4 to get the last element address)
     lw      $t0, 0($sp)		    # Load start address
     lw      $t1, 4($sp)		    # Load last element address
 
@@ -35,10 +37,10 @@ MergeSort:
         j       loop
 
     end_loop:
-    add     $a1, $a0, $a2       # $a1 = Temp array last element address + Temp array start address
-    srl		$a1, $a1, 1			# $a1 = $a1/2 (midpoint of the array)
-    andi	$a1, $a1, 0xFFFFFFFC# $a1 = $a1 & 0xFFFFFFFC (align to word boundary)
-    addi    $a1, $a1, +4        # $a1 = $a1 + 4 (midpoint of the array)
+    
+    srl     $t0, $t7, 1         # $t0 = size of the array / 2
+    andi	$t0, $t0, 0xFFFFFFFC# $t0 = $t1 & 0xFFFFFFFC (align to word boundary)
+    add     $a1, $a0, $t0       # $a1 = start address + midpoint
 
     # store start, mid, end on stack for recursive calls
     addi    $sp, $sp, -12       # Allocate space on stack for 2 words (start, mid, end)
@@ -121,17 +123,14 @@ Merge:
         addi    $t2, $t2, 4         # Move to next element in right half
         addi    $t0, $t0, 4         # Move to next position in original array
         j       loop_2              # Jump back to loop_2
-    
-    j      merge_end            # jump to merge_end
 
     loop_3:
         # Copy remaining elements from left half
         lw      $t4, 0($t1)         # Load element from left half
         sw      $t4, 0($t0)         # Store element into original array
-        beq     $t1, $s0, merge_end # If temp start != temp midpoint jump to merge_end
         addi    $t1, $t1, 4         # Move to next element in left half
         addi    $t0, $t0, 4         # Move to next position in original array
-        j       loop_3              # Jump back to loop_3
+        bne     $t1, $s0, loop_3    # If temp start != temp midpoint jump to loop_3
 
 
     merge_end:
