@@ -133,9 +133,9 @@ Merge:
         addi    $t0, $t0, 4         # Move to next position in original array
         j       loop_3              # Jump back to loop_3
 
-    lw     $s0, 0($sp)         # Restore $s0 from stack
-    lw     $s1, 4($sp)         # Restore $s1 from stack
-    addi   $sp, $sp, 8         # Deallocate stack space for $s0 and $s1
 
     merge_end:
+        lw      $s0, 0($sp)         # Restore $s0 from stack
+        lw      $s1, 4($sp)         # Restore $s1 from stack
+        addi    $sp, $sp, 8         # Deallocate stack space for $s0 and $s1
         jr      $ra                 # Return from Merge function    
