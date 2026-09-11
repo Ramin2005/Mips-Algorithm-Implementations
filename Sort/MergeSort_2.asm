@@ -69,7 +69,7 @@ MergeSort:
     move    $a0, $t0            # $a0 = temp start address
     move    $a1, $t1            # $a1 = temp midpoint address
     move    $a2, $t2            # $a2 = temp last element address
-    move    $a3, $t3           `# $a3 = original start address
+    move    $a3, $t3            # $a3 = original start address
     jal     Merge               # Merge the two sorted halves
 
     lw      $ra, 0($sp)         # Restore return address
@@ -86,7 +86,7 @@ Merge:
 
     move    $t1, $a0            # $t1 = temp start address
     move    $s0, $a1            # $s0 = temp midpoint address
-    move   `$t2, $a1            # $t2 = temp midpoint address
+    move    $t2, $a1            # $t2 = temp midpoint address
     move    $s1, $a2            # $s1 = temp last element address
     move    $t0, $a3            # $t0 = original start address
 
