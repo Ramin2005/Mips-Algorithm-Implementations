@@ -137,4 +137,4 @@ Merge:
         lw      $s0, 0($sp)         # Restore $s0 from stack
         lw      $s1, 4($sp)         # Restore $s1 from stack
         addi    $sp, $sp, 8         # Deallocate stack space for $s0 and $s1
-        jr      $ra                 # Return from Merge function    
+        jr      $ra                 # Return from Merge function
