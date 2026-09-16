@@ -66,7 +66,6 @@ MergeSort:
     lw      $t4, 4($sp)         # Load temp array last element address
     addi    $sp, $sp, 8         # Deallocate stack space for temp array addresses
 
-    addi    $t1, $t1, 4         # $t1 = midpoint + 4 (start of right half)
     # Call Merge function to merge the two sorted halves
     move    $a0, $t0            # $a0 = temp start address
     move    $a1, $t1            # $a1 = temp midpoint address
@@ -92,6 +91,8 @@ Merge:
     move    $s1, $a2            # $s1 = temp last element address
     move    $t0, $a3            # $t0 = original start address
 
+    addi    $s1, $s1, 4         # $s1 = temp last element address + 4 (to include the last element)
+
     loop_1:
         lw      $t4, 0($t1)         # Load element from left half
         lw      $t5, 0($t2)         # Load element from right half
@@ -112,16 +113,16 @@ Merge:
         end_loop_1:   
             addi	$t0, $t0, 4		    # Move to next position in original array
             beq     $t1, $s0, loop_2    # If temp start == temp midpoint, jump to loop_2
-            beq     $t2, $s1, loop_3    # If temp midpoint == temp last element address, jump to loop_3
+            beq     $t2, $s1, loop_3    # If temp midpoint == (temp last element address + 4), jump to loop_3
             j       loop_1              # Jump back to loop_1
 
     loop_2:
         # Copy remaining elements from right half
         lw      $t4, 0($t2)         # Load element from right half
         sw      $t4, 0($t0)         # Store element into original array
-        beq     $t2, $s1, merge_end # If temp midpoint != temp last element address jump to merge_end
         addi    $t2, $t2, 4         # Move to next element in right half
         addi    $t0, $t0, 4         # Move to next position in original array
+        beq     $t2, $s1, merge_end # If temp midpoint != temp last element address jump to merge_end
         j       loop_2              # Jump back to loop_2
 
     loop_3:
