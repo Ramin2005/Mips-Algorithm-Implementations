@@ -65,7 +65,17 @@ MergeSort:
     addi    $a1, $a1, -4        # Load last element address of left half
     move    $a3, $t2            # Load temp last element address of left half
     addi    $a3, $a3, -4        # Load temp last element address of left half
-    
+    jal     MergeSort           # Recursively sort left half
+
+    # Recursively sort right half
+    lw      $a0, 4($sp)         # Load start address of right half (midpoint)
+    lw      $a1, 8($sp)         # Load last element address of right half
+    lw      $a2, 16($sp)        # Load temp start address of right half (midpoint)
+    lw      $a3, 20($sp)        # Load temp last element address of right half
+    jal     MergeSort           # Recursively sort right half
 
     end:
         jr  $ra                     # jump to return address
+
+Merge:
+    
