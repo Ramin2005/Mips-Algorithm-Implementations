@@ -1,3 +1,6 @@
+# Memory Complexity: O(1)
+# Time Complexity: O(n^2)
+
 # $t0 -> first loop counter
 # $t1 -> second loop counter (pointer - address)
 # $t2 -> first loop condition
