@@ -8,7 +8,6 @@
 # $t4 -> temp variable 2
 # $t5 -> flag
 
-
 InsertionSort:
     
     slti    $t5, $a1, 2
