@@ -116,6 +116,8 @@ Merge:
     move    $s1, $a2            # $s1 = temp last element address
     move    $t0, $a3            # $t0 = original start address
 
+    addi    $s1, $s1, 4          # $s1 = temp last element address + 4 (right half end limit)
+
     loop_1:
         beq     $t1, $s0, loop_2    # If left half is exhausted, copy right half
         beq     $t2, $s1, loop_3    # If right half is exhausted, copy left half
