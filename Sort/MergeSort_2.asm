@@ -156,8 +156,8 @@ Merge:
         lw      $t4, 0($t1)         # Load element from left half
         lw      $t5, 0($t2)         # Load element from right
 
-        slt     $t6, $t4, $t5       # Compare elements left < right
-        beq     $t6, $zero, CopyRight   # If left >= right, copy right element
+        slt     $t6, $t5, $t4       # Compare elements right < left
+        bne		$t6, $zero, CopyRight   # If right < left, copy right, ELSE copy left
 
         CopyLeft:
             sw      $t4, 0($t0)     # Store left element in original array
