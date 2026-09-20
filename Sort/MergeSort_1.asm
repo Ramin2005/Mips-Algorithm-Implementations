@@ -116,50 +116,48 @@ Merge:
     move    $s1, $a2            # $s1 = temp last element address
     move    $t0, $a3            # $t0 = original start address
 
-    addi    $s1, $s1, 4         # $s1 = temp last element address + 4 (to include the last element)
-
     loop_1:
+        beq     $t1, $s0, loop_2    # If left half is exhausted, copy right half
+        beq     $t2, $s1, loop_3    # If right half is exhausted, copy left half
+
         lw      $t4, 0($t1)         # Load element from left half
         lw      $t5, 0($t2)         # Load element from right half
 
-        slt     $t6, $t4, $t5       # $t6 = ($t4 < $t5) ? 1 : 0
-
-        bne		$t6, $zero, left	# if $t6 != 0 then jump to left
-
-        right:
-            sw		$t5, 0($t0)		# Store element from right half into original array
-            addi	$t2, $t2, 4		# Move to next element in right half
-            j		end_loop_1	    # jump to end_loop_1
-            
-        left:
+        slt     $t6, $t4, $t5       # Compare elements left < right
+        beq		$t6, $zero, CopyRight   # If left >= right, copy Right element
+           
+        CopyLeft:
             sw      $t4, 0($t0)		# Store element from left half into original array
             addi	$t1, $t1, 4		# Move to next element in left half
-        
-        end_loop_1:   
-            addi	$t0, $t0, 4		    # Move to next position in original array
-            beq     $t1, $s0, loop_2    # If temp start == temp midpoint, jump to loop_2
-            beq     $t2, $s1, loop_3    # If temp midpoint == (temp last element address + 4), jump to loop_3
-            j       loop_1              # Jump back to loop_1
+            addi	$t0, $t0, 4		# Move to next position in original array
+            j		loop_1	        # jump to end_loop_1
 
+        CopyRight:
+            sw		$t5, 0($t0)		# Store element from right half into original array
+            addi	$t2, $t2, 4		# Move to next element in right half
+            addi	$t0, $t0, 4		# Move to next position in original array
+            j		loop_1	        # jump to end_loop_1
+
+    # Copy remaining elements from right half
     loop_2:
-        # Copy remaining elements from right half
         lw      $t4, 0($t2)         # Load element from right half
         sw      $t4, 0($t0)         # Store element into original array
         addi    $t2, $t2, 4         # Move to next element in right half
         addi    $t0, $t0, 4         # Move to next position in original array
-        beq     $t2, $s1, merge_end # If temp midpoint != temp last element address jump to merge_end
+        beq     $t2, $s1, MergeEnd  # If temp midpoint != temp last element address jump to MergeEnd
         j       loop_2              # Jump back to loop_2
 
+    # Copy remaining elements from left half
     loop_3:
-        # Copy remaining elements from left half
         lw      $t4, 0($t1)         # Load element from left half
         sw      $t4, 0($t0)         # Store element into original array
         addi    $t1, $t1, 4         # Move to next element in left half
         addi    $t0, $t0, 4         # Move to next position in original array
-        bne     $t1, $s0, loop_3    # If temp start != temp midpoint jump to loop_3
+        beq     $t1, $s0, MergeEnd  # If temp start != temp midpoint jump to MergeEnd
+        j       loop_3              # Jump back to loop_3
 
 
-    merge_end:
+    MergeEnd:
         lw      $s0, 0($sp)         # Restore $s0 from stack
         lw      $s1, 4($sp)         # Restore $s1 from stack
         addi    $sp, $sp, 8         # Deallocate stack space for $s0 and $s1
