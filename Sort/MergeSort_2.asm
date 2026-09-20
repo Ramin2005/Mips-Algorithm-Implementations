@@ -96,6 +96,8 @@ MergeSort:
     lw      $a3, 20($sp)        # Load temp last element address
     jal     Merge               # Merge the two sorted halves
 
+    lw      $ra, 24($sp)        # Load return address
+    addi    $sp, $sp, 28        # Deallocate stack space for
     end:
         jr  $ra                     # jump to return address
 
@@ -127,11 +129,12 @@ Merge:
     CopyLoop:
         lw      $t4, 0($t0)     # Load element from original array
         sw      $t4, 0($t2)     # Store element in temp array
-        beq     $t0, $s0, loop_1# If start address == last element address jump to copy_end
+        beq     $t0, $s0, CopyEnd   # If start address == last element address jump to copy_end
         addi    $t0, $t0, 4     # Move to next element in original array
         addi    $t2, $t2, 4     # Move to next position in temp array
         j       CopyLoop
-        
+    CopyEnd:
+    
     # Calculate the midpoint of the arrays
     sub     $t0, $a1, $a0       # $t0 = $a1 - $a0 (size of the array)
     addi    $t0, $t0, 4         # $t0 = $t0 + 4 (to include the last element)
@@ -140,10 +143,11 @@ Merge:
     # Condition registers to check the end of the left and right halves
     add     $s0, $a2, $t0       # $s0 = temp start address + midpoint
     move    $s1, $a3            # $s1 = temp last element address
+    addi    $s1, $s1, 4         # $s1 = temp last element address + 4 (right half end limit)
     # Initialize pointers for merging
     move    $t0, $a0            # $t0 = tart address
     move    $t1, $a2            # $t1 = temp left half start address
-    move    $t2, $s1            # $t2 = temp right half start address
+    move    $t2, $s0            # $t2 = temp right half start address
     # Start merging the two halves
     loop_1:
         beq     $t1, $s0, loop_2    # If left half is exhausted, copy right half
